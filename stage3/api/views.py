@@ -1,5 +1,4 @@
-from . import app
-from flask import request, redirect
+from api import app
 """
 A module to handle all http requests to the Flask application
 """

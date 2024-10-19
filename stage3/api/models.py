@@ -1,6 +1,7 @@
 from typing import List
 from typing import Optional
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy import String
 """
 This module is dedicated to defining the database metadata in sqlalchemy.
 """
