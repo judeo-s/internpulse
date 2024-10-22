@@ -125,7 +125,7 @@ def index():
                         Products.name == query_name.lower()).one()
                 session.delete(product)
                 return jsonify({'status': 'success',
-                    'message': f'product has been deleted'}), 200
+                    'message': f'product has been deleted'}), 204
             except NoResultFound as error:
                 return jsonify({'status': 'error',
                     'message': f'product [ {query_name} ] does not exist'}), 404
@@ -183,4 +183,4 @@ def product_by_id(ID):
     if request.method == 'DELETE':
         session.delete(product)
         return jsonify({'status': 'success',
-            'message': f'product has been deleted'}), 200
+            'message': f'product has been deleted'}), 204
