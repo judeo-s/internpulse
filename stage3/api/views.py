@@ -24,13 +24,13 @@ def index():
                         Products).filter(
                                 Products.name == body_name.lower()).one()
                 return jsonify(
-                        {'status': 'error', 'message': 'product already exists'}), 400
+                        {'status': 'error', 'message': 'product already exists'}), 409
             except NoResultFound as error:
                 new_product = Products(name=body_name)
                 session.add(new_product)
                 session.commit()
                 return jsonify({'status': 'success',
-                    'message': 'product has been added'}), 200
+                    'message': 'product has been added'}), 201
         return jsonify({'status': 'error', 'message': 'invalid request'}), 400
 
     """Handling GET requests"""
@@ -43,7 +43,7 @@ def index():
                 return jsonify({'status': 'success', 'product': product}), 200
             except NoResultFound as error:
                 return jsonify({'status': 'error',
-                    'message': f'product [{query_name}] does not exist'}), 400
+                    'message': f'product [{query_name}] does not exist'}), 404
         else:
             products = session.query(Products).all()
         product_list = [{'id': product.id, 'name': product.name} for product in products]
@@ -59,17 +59,31 @@ def index():
                     Products.name == query_name.lower()).one()
             except NoResultFound as error:
                 return jsonify({'status': 'error',
-                    'message': f'product [ {query_name} ] does not exist'}), 400
+                    'message': f'product [ {query_name} ] does not exist'}), 404
             try:
                 body_product = session.query(Products).filter(
                     Products.name == body_name.lower()).one()
                 return jsonify({'status': 'error',
-                    'message': f'product [ {body_name} ] already exists'}), 400
+                    'message': f'product [ {body_name} ] already exists'}), 409
             except NoResultFound as error:
                 query_product.name = body_name.lower()
                 session.commit()
                 return jsonify({'status': 'success',
                     'message': 'product has been updated'}), 200
+        return jsonify({'status': 'error', 'message': 'invalid request'}), 400
+
+    """Handling DELETE request"""
+    if request.method == 'DELETE':
+        if query_name:
+            try:
+                product = session.query(Products).filter(
+                        Products.name == query_name.lower()).one()
+                session.delete(product)
+                return jsonify({'status': 'success',
+                    'message': f'product has been deleted'}), 200
+            except NoResultFound as error:
+                return jsonify({'status': 'error',
+                    'message': f'product [ {query_name} ] does not exist'}), 404
         return jsonify({'status': 'error', 'message': 'invalid request'}), 400
 
 
@@ -83,7 +97,7 @@ def product_by_id(ID):
             product = session.query(Products).filter(Products.id == ID).one()
         except NoResultFound as error:
             return jsonify({'status': 'error',
-                "message": f"id [ {ID} ] does not exist"}), 400
+                "message": f"id [ {ID} ] does not exist"}), 404
 
     if request.method == 'GET':
         product = {'id': product.id, 'name': product.name}
@@ -97,7 +111,10 @@ def product_by_id(ID):
                 return jsonify({'status': 'success',
                     'message': 'product has been updated'}), 200
             return jsonify({'status': 'error',
-                'message': f'product [ {body_name} ] already exists'}), 400 
+                'message': f'product [ {body_name} ] already exists'}), 409 
         return jsonify({'status': 'error', 'message': 'invalid request'}), 400
 
-
+    if request.method == 'DELETE':
+        session.delete(product)
+        return jsonify({'status': 'success',
+            'message': f'product has been deleted'}), 200
