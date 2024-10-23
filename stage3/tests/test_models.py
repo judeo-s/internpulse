@@ -5,7 +5,9 @@ from api import session
 class TestDatabase(unittest.TestCase):
 
     def test_products_table(self):
-        # Test if the Products table is created successfully
+        '''
+        Test if the Products table is created successfully
+        '''
         new_product = Products(name="Test Product")
         session.add(new_product)
         session.commit()
@@ -17,7 +19,9 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(product.name, "Test Product")
 
     def test_id_autoincrement(self):
-        # Test if the id of the Products table is autoincrementing
+        '''
+        Test if the id of the Products table is autoincrementing
+        '''
         product1 = Products(name="Product 1")
         product2 = Products(name="Product 2")
         session.add(product1)
