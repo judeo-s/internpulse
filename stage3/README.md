@@ -114,8 +114,62 @@ The API returns JSON responses. The format of the responses is as follows:
   - `status`: A string indicating the status of the request.
   - `message`: A string indicating the result of the request.
 
-The API also includes unit tests for the endpoints. The tests are located in the `tests` directory. The tests use the `pytest` framework.
 
-To run the API, execute the following command from the root directory of the project:
+### Setup and Run the API
+
+Follow these steps to set up and run the API locally:
+
+1. **Clone the Repository**
+
+   First, clone the repository to your local machine using the following command:
+
+   ```bash
+   git clone https://github.com/judeo-s/internpulse.git
+   ```
+
+2. **Navigate to the Project Directory**
+
+   Change into the project directory:
+
+   ```bash
+   cd internpulse
+   ```
+
+3. **Create a Virtual Environment**
+
+   It is recommended to use a virtual environment to manage dependencies. Create and activate a virtual environment:
+
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+
+4. **Install Dependencies**
+
+   Install the required dependencies using the `requirements.txt` file:
+
+   ```bash
+   pip install -r stage3/requirements.txt
+   ```
+
+5. **Run the API**
+
+   Start the Flask application:
+
+   ```bash
+   python3 stage3/app.py
+   ```
+
+   The API will run in debug mode on `localhost:5000`.
+
+6. **Access the API**
+
+   Open your browser and navigate to `http://localhost:5000` to access the API.
+
+**Note:** Ensure you have Python 3.6 or higher installed on your machine.
 
 
+## RUNNING THE TESTS
+The API also includes unit tests for the endpoints. The tests are located in the `tests` directory. The tests use the `unittest` framework. To run the tests, use the following command:
+- `python3 -m unittest tests\test_models.py`
+- `python3 -m unittest tests\test_routes.py`
