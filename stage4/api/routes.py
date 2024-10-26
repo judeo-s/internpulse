@@ -1,8 +1,48 @@
 from flask import request, jsonify, Blueprint
 from api.models import Books
 from api import session
+from datetime import datetime
+"""
+This module contains all the routes for the API.
+
+The routes are all prefixed with '/books'.
+
+The routes are as follows:
+
+- GET /books: Retrieve all books in the database.
+- GET /books/<id>: Retrieve a specific book by ID.
+- POST /books: Create a new book.
+- PUT /books/<id>: Update a specific book by ID.
+- DELETE /books/<id>: Delete a specific book by ID.
+
+"""
+
 
 library = Blueprint('books', __name__)
+
+
+def validate_book_data(data):
+    """
+    Validate that the JSON data contains all the necessary keys.
+
+    Args:
+        data (dict): The JSON data from the POST request.
+
+    Returns:
+        list: A list of missing keys if the data does not validate, otherwise an empty list.
+    """
+    required_keys = [
+        'title',
+        'author',
+        'genre',
+        'description',
+        'publication_date',
+        'availability_status',
+        'edition',
+        'summary'
+    ]
+    missing_keys = [key for key in required_keys if key not in data.keys()]
+    return missing_keys
 
 
 def format_books_list(books_list: list):
@@ -23,10 +63,13 @@ def format_books_list(books_list: list):
             'title': book.title,
             'author': book.author,
             'genre': book.genre,
+            'description': book.description,
             'publication_date': book.publication_date,
             'availability_status': book.availability_status,
             'edition': book.edition,
-            'summary': book.summary
+            'summary': book.summary,
+            'created_at': book.created_at,
+            'updated_at': book.updated_at
         })
     return formatted_books
 
@@ -57,7 +100,7 @@ def format_response(data=None, status='success', message='', code=200, error=Non
     return jsonify(response), code
 
 
-@library.route('/books', methods=['GET'])
+@library.route('/books', methods=['GET'], strict_slashes=False)
 def get_all_books():
     """
     Retrieve all books in the database.
@@ -65,16 +108,17 @@ def get_all_books():
     Returns:
         tuple: A JSON response of all books and the HTTP status code.
     """
-    books = session.query(Books).all()
-    return format_response(
-        data=books,
-        status='success',
-        message='Tasks retrieved successfully',
-        code=200
-        )
+    if request.method == 'GET':
+        books = session.query(Books).all()
+        return format_response(
+            data=books,
+            status='success',
+            message='Tasks retrieved successfully',
+            code=200
+            )
 
 
-@library.route('/books/<int:book_id>', methods=['GET'])
+@library.route('/books/<int:book_id>', methods=['GET'], strict_slashes=False)
 def get_book(book_id):
     """
     Retrieve information about a certain book using its id.
@@ -90,7 +134,7 @@ def get_book(book_id):
         return format_response(
             status='error',
             message='Tasks not found',
-            code=404
+            code=404,
             error={'details': f'No tasks were found for the given id({book_id})'}
             )
     return format_response(
@@ -99,3 +143,5 @@ def get_book(book_id):
         message='Tasks retrieved successfully',
         code=200
         )
+
+
