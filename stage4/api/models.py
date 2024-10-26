@@ -24,7 +24,7 @@ class Books(Library):
     author: Mapped[str] = mapped_column(String(50), nullable=False)
     genre: Mapped[str] = mapped_column(String(30), nullable=False)
     description: Mapped[str] = mapped_column(String(200), nullable=False)
-    publication_date: Mapped[Date] = mapped_column(DateTime, nullable=False)
+    publication_date: Mapped[str] = mapped_column(String, nullable=False)
     availability_status: Mapped[str] = mapped_column(String(15), nullable=False)
     edition: Mapped[str] = mapped_column(String(30), nullable=False)
     summary: Mapped[str] = mapped_column(String, nullable=False)
