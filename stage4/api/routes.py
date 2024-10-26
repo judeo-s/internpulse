@@ -145,3 +145,47 @@ def get_book(book_id):
         )
 
 
+@library.route('/books', methods=['POST'], strict_slashes=False)
+def add_book():
+    """
+    Add a new book to the library.
+
+    Returns:
+        tuple: A JSON response of the added book and the HTTP status code.
+    """
+    try:
+        data = request.get_json()
+        missing_keys = validate_book_data(data)
+        if not missing_keys:
+            book = Books(
+                title=data['title'],
+                author=data['author'],
+                genre=data['genre'],
+                description=data['description'],
+                publication_date=datetime.strptime(data['publication_date'], '%Y-%m-%d').date().isoformat(),
+                availability_status=data['availability_status'],
+                edition=data['edition'],
+                summary=data['summary']
+            )
+            session.add(book)
+            session.commit()
+            return format_response(
+                data=[book],
+                status='success',
+                message='Task added successfully',
+                code=201
+            )
+        else:
+            return format_response(
+                status='error',
+                message='Missing required field',
+                code=400,
+                error={'details': f'Missing required fields: {missing_keys}'}
+            )
+    except ValueError as e:
+        return format_response(
+            status='error',
+            message='Invalid date format',
+            code=400,
+            error={'details': e.args[0]}
+            )
