@@ -72,3 +72,30 @@ def get_all_books():
         message='Tasks retrieved successfully',
         code=200
         )
+
+
+@library.route('/books/<int:book_id>', methods=['GET'])
+def get_book(book_id):
+    """
+    Retrieve information about a certain book using its id.
+
+    Args:
+        book_id (int): The id of the book to retrieve.
+
+    Returns:
+        tuple: A JSON response of all books and the HTTP status code.
+    """
+    book = session.query(Books).filter_by(id=book_id).first()
+    if book is None:
+        return format_response(
+            status='error',
+            message='Tasks not found',
+            code=404
+            error={'details': f'No tasks were found for the given id({book_id})'}
+            )
+    return format_response(
+        data=[book],
+        status='success',
+        message='Tasks retrieved successfully',
+        code=200
+        )
