@@ -51,9 +51,24 @@ def format_response(data=None, status='success', message='', code=200, error=Non
         'http_code': code
     }
     if data is not None:
-        response['data'] = format_books_list(data)
+        response['data'] = {'tasks': format_books_list(data)}
     if error is not None:
         response['error'] = error
     return jsonify(response), code
 
 
+@library.route('/books', methods=['GET'])
+def get_all_books():
+    """
+    Retrieve all books in the database.
+
+    Returns:
+        tuple: A JSON response of all books and the HTTP status code.
+    """
+    books = session.query(Books).all()
+    return format_response(
+        data=books,
+        status='success',
+        message='Tasks retrieved successfully',
+        code=200
+        )
