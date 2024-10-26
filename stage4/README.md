@@ -1,41 +1,57 @@
-# Library System API
+# Internship Stage 4 - Library API
 
-This project is a simple RESTful API to manage a library system. The API is built using Flask and uses SQLAlchemy to interact with a SQLite database.
+**Overview**
+This repository contains the code for the library management API created as part of the backend developer internship program.
 
-## Functionality
+### Functionality
 
-The API offers the following functionalities:
+The API allows users to manage books in a library. The following operations are supported:
 
-* **Retrieve a list of all books:** Send a GET request to `/books` to retrieve a list of all books in the library. The response will include the title, author, genre, and publication date of each book.
-* **Get the details of a specific book:** Send a GET request to `/books/<id>` to retrieve the details of a specific book. The response will include the title, author, genre, publication date, availability status, edition, and summary of the book.
-* **Add a new book:** Send a POST request to `/books` to add a new book to the library. The request body should include the title, author, genre, publication date, availability status, edition, and summary of the book.
-* **Update a book:** Send a PUT request to `/books/<id>` to update the details of an existing book. The request body should include the new values for the title, author, genre, publication date, availability status, edition, and summary of the book.
-* **Delete a book:** Send a DELETE request to `/books/<id>` to delete a book from the library. The book will be deleted if it is lost, damaged, or no longer available in the library.
+* **Create:** Add a new book by sending a POST request with the book details in the request body.
+* **Retrieve:**
+	+ Retrieve book information by ID: Send a GET request to a specific URL endpoint with the book ID.
+	+ Retrieve book information by title: Send a GET request with the book title as a query parameter.
+* **Update:**
+	+ Update book information by ID: Send a PUT request with the new book details in the request body and the book ID in the URL.
+	+ Update book information by title: Send a PUT request with the new book details in the request body and the book title as a query parameter.
+* **Delete:**
+	+ Delete book by ID: Send a DELETE request to a specific URL endpoint with the book ID.
+	+ Delete book by title: Send a DELETE request with the book title as a query parameter.
 
-## API Endpoints
+### Technical Specifications
 
-* **GET /books:** Retrieve a list of all books in the library.
-* **GET /books/<id>:** Retrieve the details of a specific book.
-* **POST /books:** Add a new book to the library.
-* **PUT /books/<id>:** Update the details of an existing book.
-* **DELETE /books/<id>:** Delete a book from the library.
+**API Framework:** Flask
+**Data Persistence:** SQLite database
 
-## Request and Response Formats
+### Implementation
 
-* **Request Body:** The request body should be a JSON object with the following keys:
-	+ `title`: The title of the book.
-	+ `author`: The author of the book.
-	+ `genre`: The genre of the book.
-	+ `publication_date`: The publication date of the book.
-	+ `availability_status`: The availability status of the book.
-	+ `edition`: The edition of the book.
-	+ `summary`: The summary of the book.
-    + `created_at`: The date the book details were entered into the database.
-    + `updated_at`: The date the book details were updated in the database.
-    
-* **Response:** The response will be a JSON object with the following keys:
-	+ `status`: A string indicating the status of the request.
-	+ `message`: A string indicating the result of the request.
-	+ `data`: A JSON object containing the details of the book, if applicable.
+The API is structured as follows:
 
+* `app.py`: The main entry point for the API, this file initializes the Flask application and defines the routes.
+* `api`: A package containing the API code.
+	+ `models.py`: Defines the database models for the books table.
+	+ `views.py`: Contains the API endpoints.
+	+ `__init__.py`: Initializes the API package.
+* `tests`: A directory containing the unit tests for the API.
+* `data`: A directory containing the database file.
+* `requirements.txt`: A file containing the list of dependencies required for the API.
+
+### Setup and Run the API
+
+To set up and run the API locally, follow these steps:
+
+1. **Clone the Repository**
+
+	First, clone the repository to your local machine using the following command:
+	+ `git clone https://github.com/judeo-s/internpulse.git`
+
+2. **Install Dependencies**
+
+	Next, install the necessary dependencies by running the following command:
+	+ `pip install -r requirements.txt`
+
+3. **Run the API**
+
+	Finally, run the API by executing the following command:
+	+ `python3 app.py`
 
