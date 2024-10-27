@@ -55,3 +55,6 @@ To set up and run the API locally, follow these steps:
 	Finally, run the API by executing the following command:
 	+ `python3 app.py`
 
+### Postman API Documentation
+
+The API is documented using Postman. To view the documentation, click [here](https://documenter.getpostman.com/view/37655731/2sAY4sk5Cs).
