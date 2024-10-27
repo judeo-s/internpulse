@@ -6,7 +6,8 @@ This repository serves as a central location for the tasks and projects assigned
 
   * [Stage 1 - Orientation](https://github.com/judeo-s/internpulse/blob/main/stage1/README.md)
   * [Stage 2 - Networking and Connecting](https://github.com/judeo-s/internpulse/blob/main/stage2/README.md)
-  * [Stage 3 - API Product Management System](https://github.com/judeo-s/internpulse/blob/main/stage3/)
+  * [Stage 3 - Product Management System API](https://github.com/judeo-s/internpulse/blob/main/stage3/)
+  * [Stage 4 - Library System API](https://github.com/judeo-s/internpulse/blob/main/stage4/)
 
 **Please Note:**
 
