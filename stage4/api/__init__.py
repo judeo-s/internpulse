@@ -20,4 +20,3 @@ Register the blueprint for versioned routes
 
 
 app.register_blueprint(library_v1)
-app.register_blueprint(library_v1)
