@@ -152,17 +152,14 @@ def update_book(book_id):
         data = request.get_json()
         missing_keys = validate_book_data(data)
         if not missing_keys:
-            book = Books(
-                title=data['title'],
-                author=data['author'],
-                genre=data['genre'],
-                description=data['description'],
-                publication_date=datetime.strptime(data['publication_date'], '%Y-%m-%d').date().isoformat(),
-                availability_status=data['availability_status'],
-                edition=data['edition'],
-                summary=data['summary']
-            )
-            session.add(book)
+            book.title=data['title']
+            book.author=data['author']
+            book.genre=data['genre']
+            book.description=data['description']
+            book.publication_date=datetime.strptime(data['publication_date'], '%Y-%m-%d').date().isoformat()
+            book.availability_status=data['availability_status']
+            book.edition=data['edition']
+            book.summary=data['summary']
             session.commit()
             return format_response(
                 data=[book],
@@ -219,4 +216,3 @@ def delete_book(book_id):
         message='Book deleted successfully',
         code=204
     )
-
